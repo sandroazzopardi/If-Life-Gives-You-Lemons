@@ -1,9 +1,253 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Lemon Machine — If Life Gives You Lemons</title><meta name="description" content="Having a day? Squeeze the Lemon Machine for original funny encouragement, gentle reminders and tiny useful ideas. Save a card or send a little sunshine."><link rel="canonical" href="https://iflifegivesyoulemons.com/"><meta property="og:title" content="Life gave you lemons? Squeeze one."><meta property="og:description" content="A little humour. A little perspective. One very helpful lemon."><meta property="og:type" content="website"><meta property="og:url" content="https://iflifegivesyoulemons.com/"><meta property="og:image" content="https://iflifegivesyoulemons.com/social-preview.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="lemon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"><script defer src="config.js"></script><script defer src="messages.js"></script><script defer src="app.js"></script></head><body>
-<header><a class="brand" href="./"><img src="lemon.svg" alt="" width="40" height="34">IF LIFE GIVES YOU LEMONS</a><a href="#little-gifts">Little gifts ↗</a></header>
-<main><section class="hero"><span class="eyebrow">A SMALL SQUEEZE. A FRESH PERSPECTIVE.</span><h1>Life gave you <em>lemons?</em></h1><p class="intro">Squeeze one. See what happens.</p><div class="machine"><div class="left"><span class="scribble">your daily dose of zest ↘</span><button id="squeeze" class="lemon" aria-label="Squeeze the lemon for a new message"><img src="lemon.svg" alt="A smiling yellow lemon" width="300" height="240"></button><p class="hint">Go on. Give it a squeeze.</p></div><div class="result"><div class="card-top"><span id="label">FRESHLY SQUEEZED</span><span>✦</span></div><blockquote id="message" aria-live="polite">You wanted a sign. This is a fruit.</blockquote><div class="card-bottom">A LITTLE ZEST FOR YOUR DAY <span>🍋</span></div></div></div>
-<div class="moods" role="group" aria-label="Choose your mood"><button data-mood="all" aria-pressed="true">Surprise me</button><button data-mood="funny" aria-pressed="false">Make me laugh</button><button data-mood="sarcastic" aria-pressed="false">Extra sharp</button><button data-mood="kind" aria-pressed="false">Be kind</button><button data-mood="useful" aria-pressed="false">Something useful</button></div>
-<div class="actions"><button id="another" class="primary">Squeeze again ↗</button><button id="share">Share this lemon</button><button id="download">Save image ↓</button><button id="daily">Today’s lemon ☀</button></div><p id="status" role="status" class="status"></p><noscript><p>Enable JavaScript to squeeze the lemon. You can still enjoy the messages below.</p></noscript></section>
-<section class="note"><span>100 original little pick-me-ups.</span><p>No perfect-life advice. Just a little humour, a little perspective, and the occasional useful nudge.</p></section>
-<section id="little-gifts" class="shop"><div><span class="eyebrow">A LITTLE SOMETHING TO PASS ON</span><h2>Good days.<br>On paper.</h2><p>The Little Zest Pack: 12 printable cards for desks, noticeboards and friends who could use a small smile.</p><p>A4 & US Letter · Colour & ink-friendly · Personal use</p><a href="sample.html" class="sample">Try 3 free cards ↗</a><p id="buywrap"><span class="coming">€4.99 · Full pack coming soon</span></p></div><div class="mini-cards"><div>You are a person,<br>not a potato.<small>You cannot please everyone.</small></div><div>Let today<br>be a draft.<small>You can edit tomorrow.</small></div><div>A small step<br>still counts.<small>Keep your own pace.</small></div></div></section>
-<section class="read"><h2>A lemon for the kind of day you’re having.</h2><div class="columns"><article><h3>Funny encouragement</h3><p>“You have main-character energy and background-character battery.”</p><p>For the days that need a laugh before they need a plan. Choose “Make me laugh” above.</p></article><article><h3>A kind word for a friend</h3><p>“The effort nobody saw still counts.”</p><p>Sometimes a tiny message says enough. Share a lemon or save a card to send your way.</p></article><article><h3>One useful next step</h3><p>“Ask: what would make the next hour a little easier?”</p><p>Choose “Something useful” for a practical nudge you can try today.</p></article></div></section></main>
-<footer><span>Made for the days that need a little zest.</span><div><a href="privacy.html">Privacy & about</a><a id="enquiry" hidden>Domain acquisition enquiries</a></div><small>© <span id="year"></span> If Life Gives You Lemons</small></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TB1GV4KBS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TB1GV4KBS9');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>The Lemon Machine — If Life Gives You Lemons</title>
+
+  <meta
+    name="description"
+    content="Having a day? Squeeze the Lemon Machine for original funny encouragement, gentle reminders and tiny useful ideas. Save a card or send a little sunshine."
+  >
+
+  <link rel="canonical" href="https://iflifegivesyoulemons.com/">
+
+  <meta property="og:title" content="Life gave you lemons? Squeeze one.">
+  <meta
+    property="og:description"
+    content="A little humour. A little perspective. One very helpful lemon."
+  >
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iflifegivesyoulemons.com/">
+  <meta
+    property="og:image"
+    content="https://iflifegivesyoulemons.com/social-preview.png"
+  >
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="lemon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+
+  <script defer src="config.js"></script>
+  <script defer src="messages.js"></script>
+  <script defer src="app.js"></script>
+</head>
+
+<body>
+  <header>
+    <a class="brand" href="./">
+      <img src="lemon.svg" alt="" width="40" height="34">
+      IF LIFE GIVES YOU LEMONS
+    </a>
+
+    <a href="#little-gifts">Little gifts ↗</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">
+        A SMALL SQUEEZE. A FRESH PERSPECTIVE.
+      </span>
+
+      <h1>Life gave you <em>lemons?</em></h1>
+      <p class="intro">Squeeze one. See what happens.</p>
+
+      <div class="machine">
+        <div class="left">
+          <span class="scribble">your daily dose of zest ↘</span>
+
+          <button
+            id="squeeze"
+            class="lemon"
+            aria-label="Squeeze the lemon for a new message"
+          >
+            <img
+              src="lemon.svg"
+              alt="A smiling yellow lemon"
+              width="300"
+              height="240"
+            >
+          </button>
+
+          <p class="hint">Go on. Give it a squeeze.</p>
+        </div>
+
+        <div class="result">
+          <div class="card-top">
+            <span id="label">FRESHLY SQUEEZED</span>
+            <span>✦</span>
+          </div>
+
+          <blockquote id="message" aria-live="polite">
+            You wanted a sign. This is a fruit.
+          </blockquote>
+
+          <div class="card-bottom">
+            A LITTLE ZEST FOR YOUR DAY
+            <span>🍋</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="moods" role="group" aria-label="Choose your mood">
+        <button data-mood="all" aria-pressed="true">
+          Surprise me
+        </button>
+
+        <button data-mood="funny" aria-pressed="false">
+          Make me laugh
+        </button>
+
+        <button data-mood="sarcastic" aria-pressed="false">
+          Extra sharp
+        </button>
+
+        <button data-mood="kind" aria-pressed="false">
+          Be kind
+        </button>
+
+        <button data-mood="useful" aria-pressed="false">
+          Something useful
+        </button>
+      </div>
+
+      <div class="actions">
+        <button id="another" class="primary">Squeeze again ↗</button>
+        <button id="share">Share this lemon</button>
+        <button id="download">Save image ↓</button>
+        <button id="daily">Today’s lemon ☀</button>
+      </div>
+
+      <p id="status" role="status" class="status"></p>
+
+      <noscript>
+        <p>
+          Enable JavaScript to squeeze the lemon.
+          You can still enjoy the messages below.
+        </p>
+      </noscript>
+    </section>
+
+    <section class="note">
+      <span>100 original little pick-me-ups.</span>
+
+      <p>
+        No perfect-life advice. Just a little humour, a little perspective,
+        and the occasional useful nudge.
+      </p>
+    </section>
+
+    <section id="little-gifts" class="shop">
+      <div>
+        <span class="eyebrow">A LITTLE SOMETHING TO PASS ON</span>
+
+        <h2>
+          Good days.<br>
+          On paper.
+        </h2>
+
+        <p>
+          The Little Zest Pack: 12 printable cards for desks, noticeboards
+          and friends who could use a small smile.
+        </p>
+
+        <p>
+          A4 &amp; US Letter · Colour &amp; ink-friendly · Personal use
+        </p>
+
+        <a href="sample.html" class="sample">Try 3 free cards ↗</a>
+
+        <p id="buywrap">
+          <span class="coming">€4.99 · Full pack coming soon</span>
+        </p>
+      </div>
+
+      <div class="mini-cards">
+        <div>
+          You are a person,<br>
+          not a potato.
+          <small>You cannot please everyone.</small>
+        </div>
+
+        <div>
+          Let today<br>
+          be a draft.
+          <small>You can edit tomorrow.</small>
+        </div>
+
+        <div>
+          A small step<br>
+          still counts.
+          <small>Keep your own pace.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="read">
+      <h2>A lemon for the kind of day you’re having.</h2>
+
+      <div class="columns">
+        <article>
+          <h3>Funny encouragement</h3>
+
+          <p>
+            “You have main-character energy and background-character battery.”
+          </p>
+
+          <p>
+            For the days that need a laugh before they need a plan.
+            Choose “Make me laugh” above.
+          </p>
+        </article>
+
+        <article>
+          <h3>A kind word for a friend</h3>
+
+          <p>“The effort nobody saw still counts.”</p>
+
+          <p>
+            Sometimes a tiny message says enough.
+            Share a lemon or save a card to send your way.
+          </p>
+        </article>
+
+        <article>
+          <h3>One useful next step</h3>
+
+          <p>“Ask: what would make the next hour a little easier?”</p>
+
+          <p>
+            Choose “Something useful” for a practical nudge
+            you can try today.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Made for the days that need a little zest.</span>
+
+    <div>
+      <a href="privacy.html">Privacy &amp; about</a>
+      <a id="enquiry" hidden>Domain acquisition enquiries</a>
+    </div>
+
+    <small>
+      © <span id="year"></span> If Life Gives You Lemons
+    </small>
+  </footer>
+</body>
+</html>
