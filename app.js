@@ -11,7 +11,97 @@ const requested=new URLSearchParams(location.search).get('lemon');if(requested){
 function url(){return 'https://iflifegivesyoulemons.com/?lemon='+encodeURIComponent(current.id);}
 $('share').onclick=async()=>{const data={title:'A little lemon for you',text:current.text,url:url()};try{if(navigator.share){await navigator.share(data);track('share',{method:'native'});$('status').textContent='A little zest passed on.';}else{await navigator.clipboard.writeText(data.text+'\n'+data.url);track('share',{method:'copy'});$('status').textContent='Message and link copied. Paste them into your favourite app.';}}catch(e){if(e.name!=='AbortError'){$('status').textContent='Copy this link to share: '+url();}}};
 function imageBlob(){return new Promise((resolve,reject)=>{const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;const ctx=canvas.getContext('2d');ctx.fillStyle='#faf8ef';ctx.fillRect(0,0,1080,1080);ctx.fillStyle='#f8d848';ctx.beginPath();ctx.ellipse(900,120,150,115,-.4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3f593d';ctx.font='bold 24px Arial';ctx.fillText('IF LIFE GIVES YOU LEMONS',85,130);ctx.font='20px Arial';ctx.fillText(labels[current.category],85,240);ctx.fillStyle='#303526';ctx.font='52px Georgia';let lines=[],line='';for(const word of current.text.split(' ')){const next=line?line+' '+word:word;if(ctx.measureText(next).width>900&&line){lines.push(line);line=word;}else line=next;}lines.push(line);lines.forEach((l,i)=>ctx.fillText(l,85,440+i*70));ctx.strokeStyle='#cbd2be';ctx.beginPath();ctx.moveTo(85,870);ctx.lineTo(995,870);ctx.stroke();ctx.fillStyle='#3f593d';ctx.font='25px Arial';ctx.fillText('Squeeze your own little pick-me-up.',85,925);ctx.font='22px Arial';ctx.fillText('iflifegivesyoulemons.com',85,980);canvas.toBlob(b=>b?resolve(b):reject(new Error('Image unavailable')),'image/png');});}
-$('download').onclick=async()=>{try{const blob=await imageBlob();const href=URL.createObjectURL(blob),a=document.createElement('a');a.href=href;a.download='a-little-lemon-'+current.id+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(href),30000);track('save_image');$('status').textContent='Your lemon card is ready to save.';}catch{$('status').textContent='Image could not be saved. Try sharing the link instead.';}};
+// Display a real image so mobile visitors can press and hold to save it.
+let previewDialog;
+let previewImage;
+let previewDownload;
+let previousFocus;
+function makePreview() {
+  if (previewDialog) return;
+  const style = document.createElement('style');
+  style.textContent = `
+    .lemon-preview { width: min(94vw, 650px); max-height: 92dvh;
+      padding: 22px; border: 1px solid #cbd2be; border-radius: 14px;
+      background: #faf8ef; color: #303526; overflow-y: auto; }
+    .lemon-preview::backdrop { background: #152012aa; }
+    .lemon-preview header { padding: 0; display: flex; gap: 15px;
+      justify-content: space-between; align-items: center; }
+    .lemon-preview h2 { margin: 0; font: 25px Georgia, serif; }
+    .lemon-preview p { font: 14px/1.6 Arial, sans-serif; }
+    .lemon-preview img { display: block; width: auto; height: auto;
+      max-width: 100%; max-height: 52dvh; margin: 18px auto;
+      border-radius: 8px; -webkit-touch-callout: default; user-select: auto; }
+    .lemon-preview button, .lemon-preview a { font: 14px Arial, sans-serif;
+      padding: 11px 15px; border-radius: 6px; }
+    .lemon-preview button { background: transparent; border: 1px solid #cbd2be; }
+    .lemon-preview a { display: inline-block; background: #3f593d;
+      color: white; text-decoration: none; }
+  `;
+  document.head.appendChild(style);
+  previewDialog = document.createElement('dialog');
+  previewDialog.className = 'lemon-preview';
+  previewDialog.setAttribute('aria-labelledby', 'lemon-preview-title');
+  previewDialog.innerHTML = `
+    <header>
+      <h2 id="lemon-preview-title">Save your lemon</h2>
+      <button type="button" aria-label="Close image preview" autofocus>Close ×</button>
+    </header>
+    <p>On your phone, <strong>press and hold the image</strong> and choose
+      “Save image”, “Add to Photos” or a similar option. You can also try the download button.</p>
+    <img alt="Your generated lemon image">
+    <a download>Download image ↓</a>
+    <p><strong>Opened in Messenger?</strong> If saving does not work, use its
+      menu (often ⋯) and choose “Open in browser”, or copy the page link and
+      paste it into Safari or Chrome. Then save the image there.</p>
+    <p class="wallpaper-help" hidden>After saving, open the image in your Photos or Gallery
+      app and set it as your wallpaper. Your phone may crop the edges.</p>
+  `;
+  document.body.appendChild(previewDialog);
+  previewImage = previewDialog.querySelector('img');
+  previewDownload = previewDialog.querySelector('a');
+  previewDialog.querySelector('button').onclick = () => previewDialog.close();
+  previewDialog.addEventListener('close', () => {
+    previewImage.removeAttribute('src');
+    previewDownload.removeAttribute('href');
+    if (previousFocus && previousFocus.isConnected) previousFocus.focus();
+  });
+}
+function previewBlob(blob, filename, wallpaper = false) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Preview unavailable'));
+    reader.onload = () => {
+      try {
+        makePreview();
+        previousFocus = document.activeElement;
+        previewImage.src = reader.result;
+        previewImage.alt = wallpaper ? 'Your lemon phone wallpaper' : 'Your lemon message card';
+        previewDownload.href = reader.result;
+        previewDownload.download = filename;
+        previewDialog.querySelector('h2').textContent = wallpaper ? 'Save your phone wallpaper' : 'Save your lemon card';
+        previewDialog.querySelector('.wallpaper-help').hidden = !wallpaper;
+        if (!previewDialog.open) previewDialog.showModal();
+        resolve();
+      } catch (error) { reject(error); }
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+$('download').onclick = async () => {
+  const button = $('download');
+  const selected = current;
+  button.disabled = true;
+  try {
+    const blob = await imageBlob();
+    await previewBlob(blob, 'a-little-lemon-' + selected.id + '.png');
+    track('image_preview');
+    $('status').textContent = 'Image preview ready. Press and hold the image or use Download image.';
+  } catch {
+    $('status').textContent = 'Image preview could not be opened. Please try your phone’s browser.';
+  } finally {
+    button.disabled = false;
+  }
+};
 
 // Phone wallpaper: 1440 × 3200, with clear space for clocks and controls.
 function wallpaperBlob(text) {
@@ -91,16 +181,9 @@ if (wallpaperButton) wallpaperButton.onclick = async () => {
   wallpaperButton.disabled = true;
   try {
     const blob = await wallpaperBlob(selected.text);
-    const href = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = href;
-    a.download = 'lemon-wallpaper-' + selected.id + '.png';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(href), 30000);
-    track('save_wallpaper', { category: selected.category });
-    $('status').textContent = 'Wallpaper ready. Open the downloaded image and set it as your wallpaper. Your phone may crop the edges.';
+    await previewBlob(blob, 'lemon-wallpaper-' + selected.id + '.png', true);
+    track('wallpaper_preview', { category: selected.category });
+    $('status').textContent = 'Wallpaper preview ready. Press and hold the image or use Download image.';
   } catch {
     $('status').textContent = 'Wallpaper could not be saved. Please try again.';
   } finally {
